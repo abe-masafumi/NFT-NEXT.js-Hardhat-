@@ -1,7 +1,8 @@
 import Head from "next/head";
 
 export const getServerSideProps = async (context) => {
-  const res = await fetch(`http://localhost:3000/api/pinatatest`)
+  const res = await fetch(`https://vercel.com/nft-pinata-ipfsproject/nft-next-js-hardhat/api/pinatatest`)
+  // const res = await fetch(`http://localhost:3000/api/pinatatest`)
   const data = await res.json()
 
   if (!data) {
