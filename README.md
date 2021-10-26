@@ -14,6 +14,7 @@ node scripts/sample-script.js
 npx hardhat help
 ```
 
+pinata参考資料:https://docs.pinata.cloud/pinata-node-sdk
 
 
 
