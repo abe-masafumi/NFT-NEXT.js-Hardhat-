@@ -1,11 +1,21 @@
 import Head from "next/head";
 
+export const getServerSideProps = async (context) => {
+  const res = await fetch(`http://localhost:3000/api/pinatatest`)
+  const data = await res.json()
 
-export default function Home() {
-  console.log(process.env.TEST_VAR_FOR_BROWSER)
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
 
-
-
+  return {
+    props: { data }, // will be passed to the page component as props
+  }
+}
+export default function Home( data ) {
+console.log(data);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
@@ -28,8 +38,7 @@ export default function Home() {
           </code>
         </p>
 
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-        </div>
+        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full"></div>
       </main>
 
       <footer className="flex items-center justify-center w-full h-24 border-t">
