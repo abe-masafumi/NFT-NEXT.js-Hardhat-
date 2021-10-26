@@ -1,22 +1,25 @@
 import Head from "next/head";
 
-export const getServerSideProps = async (context) => {
+// export const getServerSideProps = async (context) => {
   // const res = await fetch(`https://nft-next-js-hardhat-zeta.vercel.app/api/pinatatest`)
-  const res = await fetch(`http://localhost:3000/api/pinatatest`)
-  const data = await res.json()
+  // const res = await fetch(`http://localhost:3000/api/pinatatest`)
+//   const data = await res.json()
 
-  if (!data) {
-    return {
-      notFound: true,
-    }
-  }
+//   if (!data) {
+//     return {
+//       notFound: true,
+//     }
+//   }
 
-  return {
-    props: { data }, // will be passed to the page component as props
-  }
-}
+//   return {
+//     props: { data }, // will be passed to the page component as props
+//   }
+// }
+
 export default function Home( data ) {
-console.log(data);
+
+// console.log(data);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
