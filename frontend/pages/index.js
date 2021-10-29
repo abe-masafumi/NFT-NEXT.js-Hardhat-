@@ -25,31 +25,33 @@ export default function Home( data ) {
 
 
 export default function Home(data) {
+
+  
   // ---pinataにデータを追加JSON---
   console.log(data);
-  const axios = require("axios");
-  const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-  const JSONBody = {
-    "descriptiontest": "first commit",
-    "imagetest": "https://nextjs-anifo.vercel.app/NFTimg/tarker.jpg",
-    "nametest": "abetter"
-    }
-  axios
-    .post(url, JSONBody, {
-      name: "kononame",
-      headers: {
-        pinata_api_key: process.env.pinataAPIKey,
-        pinata_secret_api_key: process.env.pinataAPISecret,
-      },
-    })
-    .then(function (response) {
-      //handle response here
-      console.log(response);
-    })
-    .catch(function (error) {
-      //handle error here
-      console.log(error);
-    });
+  // const axios = require("axios");
+  // const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
+  // const JSONBody = {
+  //   "descriptiontest": "first commit",
+  //   "imagetest": "https://nextjs-anifo.vercel.app/NFTimg/tarker.jpg",
+  //   "nametest": "abetter"
+  //   }
+  // axios
+  //   .post(url, JSONBody, {
+  //     name: "kononame",
+  //     headers: {
+  //       pinata_api_key: process.env.pinataAPIKey,
+  //       pinata_secret_api_key: process.env.pinataAPISecret,
+  //     },
+  //   })
+  //   .then(function (response) {
+  //     //handle response here
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     //handle error here
+  //     console.log(error);
+  //   });
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
