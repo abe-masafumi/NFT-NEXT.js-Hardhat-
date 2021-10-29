@@ -1,11 +1,11 @@
 import Head from "next/head";
 const axios = require("axios");
-const fs = require("fs");
-const FormData = require("form-data");
+// const fs = require("fs");
+// const FormData = require("form-data");
 
 export const getServerSideProps = async (context) => {
   // const res = await fetch(`https://nft-next-js-hardhat-zeta.vercel.app/api/pinatatest`)
-  const res = await fetch(`http://localhost:3000/api/pinatatest`)
+  const res = await fetch(`http://localhost:3000/api/hello`)
   const data = await res.json()
 
   if (!data) {
@@ -22,11 +22,6 @@ export const getServerSideProps = async (context) => {
 export default function Home( data ) {
 
 // console.log(data);
-
-
-export default function Home(data) {
-
-  
   // ---pinataにデータを追加JSON---
   console.log(data);
   // const axios = require("axios");
