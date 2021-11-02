@@ -5,7 +5,7 @@ export default function helloAPI(req, res) {
     process.env.pinataAPIKey,
     process.env.pinataAPISecret
   );
-  const readableStreamForFile = fs.createReadStream("./test");
+  const readableStreamForFile = fs.createReadStream("../test");
   const options = {
     pinataMetadata: {
       name: "MyCustomName",
@@ -24,13 +24,13 @@ export default function helloAPI(req, res) {
     .then((result) => {
       //handle results here
       console.log(result);
-      // res.status(200).json({ name: result });
+      res.status(200).json({ name: result });
       console.log("okデーーーーす");
     })
     .catch((err) => {
       //handle error here
       console.log(err);
       console.log("🤗だめでーーーーーす");
-      // res.status(200).json({ name: err });
+      res.status(200).json({ name: err });
     });
 }
