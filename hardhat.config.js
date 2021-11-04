@@ -16,6 +16,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
+// hardhat参考資料:https://hardhat.org/tutorial/deploying-to-a-live-network.html
  module.exports = {
   defaultNetwork: "rinkeby",
   networks: {
