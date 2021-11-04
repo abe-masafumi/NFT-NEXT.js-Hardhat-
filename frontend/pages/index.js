@@ -1,25 +1,35 @@
 import Head from "next/head";
 import "tailwindcss/tailwind.css";
+import { ethers } from "ethers";
 const isClient = () => typeof window !== "undefined";
 
-
-
 export default function Home() {
-// Connectボタンの動作
-  if(isClient()) {
+  // ethersデフォルトprobider:https://docs.ethers.io/v5/api-keys/
+  const network = "rinkeby";
+  const provider = ethers.getDefaultProvider(network, {
+    alchemy:
+      "https://eth-rinkeby.alchemyapi.io/v2/OeJ9vVL8ESsgfcjpFY1hhFt3YjyhyydL",
+    pocket: "dcb9d789b564e5913728efc1c318dd2ee15bb36da57c52ad2c4c612683023731",
+  });
+// -------
+  const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
+  // Using HTTPS
+  const web3 = createAlchemyWeb3(
+    "https://eth-rinkeby.alchemyapi.io/v2/OeJ9vVL8ESsgfcjpFY1hhFt3YjyhyydL"
+  );
+
+  // Connectボタンの動作
+  if (isClient()) {
     const ethereumButton = document.getElementById("connectButton");
     ethereumButton.addEventListener("click", () => {
-      const accounts = ethereum.request({ method: 'eth_requestAccounts' });
+      const accounts = ethereum.request({ method: "eth_requestAccounts" });
       // promisseの中を取得する
-      accounts.then(function(result) {
-        console.log(result[0])
-     })
+      accounts.then(function (result) {
+        console.log(result[0]);
+      });
     });
-  } 
+  }
   // -----------------
-
-
-
 
   function test() {
     alert("ok");
