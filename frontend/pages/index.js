@@ -1,24 +1,24 @@
 import Head from "next/head";
 import "tailwindcss/tailwind.css";
 import { ethers } from "ethers";
+import { useEffect } from "react";
 const isClient = () => typeof window !== "undefined";
 
 export default function Home() {
-  // ethersデフォルトprobider:https://docs.ethers.io/v5/api-keys/
-  const network = "rinkeby";
-  const provider = ethers.getDefaultProvider(network, {
-    alchemy:
-      "https://eth-rinkeby.alchemyapi.io/v2/OeJ9vVL8ESsgfcjpFY1hhFt3YjyhyydL",
-    pocket: "dcb9d789b564e5913728efc1c318dd2ee15bb36da57c52ad2c4c612683023731",
-  });
-// -------
-  const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
-  // Using HTTPS
-  const web3 = createAlchemyWeb3(
-    "https://eth-rinkeby.alchemyapi.io/v2/OeJ9vVL8ESsgfcjpFY1hhFt3YjyhyydL"
-  );
+  let token;
+  let senderAddress;
+  let NFT;
+  let signer;
+  useEffect(() => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    console.log(provider);
+    NFT = require("../../artifacts/contracts/sample.sol/SimpleStorage.json");
+    senderAddress = "0x3E1edF1dB7D9303959a8c8e222BF76332B395Bf7";
+    signer = provider.getSigner(0);
+    console.log(signer);
+    token = new ethers.Contract(senderAddress, NFT.abi, signer);
+  }, []);
 
-  // Connectボタンの動作
   if (isClient()) {
     const ethereumButton = document.getElementById("connectButton");
     ethereumButton.addEventListener("click", () => {
@@ -31,8 +31,19 @@ export default function Home() {
   }
   // -----------------
 
-  function test() {
-    alert("ok");
+  async function test() {
+    if (typeof window !== "undefined") {
+      console.log(token);
+      let res = await token.get();
+      let messageStatus = document.getElementById("messageStatus");
+      messageStatus.textContent = res;
+    }
+  }
+
+  async function storetest() {
+    console.log(token);
+    const set = await token.set(300);
+    console.log(set);
   }
 
   return (
@@ -71,7 +82,7 @@ export default function Home() {
         <button
           id="storeButton"
           className="bg-gray-200 border-2 rounded-lg"
-          onClick={test}
+          onClick={storetest}
         >
           Store
         </button>
