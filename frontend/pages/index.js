@@ -2,11 +2,12 @@ import Head from "next/head";
 import "tailwindcss/tailwind.css";
 import { ethers } from "ethers";
 import { useEffect } from "react";
+import { SimpleStorage, GameItem } from "../../config";
+
 const isClient = () => typeof window !== "undefined";
 
 export default function Home() {
   let token;
-  let senderAddress;
   let NFT;
   let signer;
 
@@ -16,10 +17,9 @@ export default function Home() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     console.log(provider);
     NFT = require("../../artifacts/contracts/sample.sol/SimpleStorage.json");
-    senderAddress = "0x3E1edF1dB7D9303959a8c8e222BF76332B395Bf7";
     signer = provider.getSigner(0);
     console.log(signer);
-    token = new ethers.Contract(senderAddress, NFT.abi, signer);
+    token = new ethers.Contract(SimpleStorage, NFT.abi, signer);
   }, []);
 
   // MetaMaskとの接続
@@ -33,6 +33,10 @@ export default function Home() {
     });
   }
 
+  async function pinatafile() {
+    alert("ok");
+    // https://api.pinata.cloud/pinning/pinFileToIPFS
+  }
   async function Retrieve() {
     if (typeof window !== "undefined") {
       let res = await token.get();
@@ -55,8 +59,7 @@ export default function Home() {
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        
-        <h1>メッセージの保存と取得</h1>
+        <h1>-----メッセージの保存と取得-----</h1>
         <div className="text-red-400">Ethereum test dapp</div>
         <div>
           Accounts: <span id="address"></span>
@@ -95,7 +98,18 @@ export default function Home() {
           placeholder="uint"
         />
 
-    <h1>mint</h1>
+        <h1>-----デフォルトのmint-----</h1>
+
+        <form >
+          <input
+            type="file"
+            id="inputFile"
+            name="file"
+            accept="image/*"
+          />
+          <button onClick={pinatafile}>pinataにfileを保存</button>
+          
+        </form>
       </main>
 
       <footer className="flex items-center justify-center w-full h-24 border-t">
