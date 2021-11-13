@@ -2,13 +2,18 @@ const hre = require("hardhat");
 const fs = require('fs');
 
 async function main() {
-  const Greeter = await hre.ethers.getContractFactory("SimpleStorage");
-  const greeter = await Greeter.deploy();
-  await greeter.deployed();
+  const Sample = await hre.ethers.getContractFactory("SimpleStorage");
+  const sample = await Sample.deploy();
+  await sample.deployed();
+  const Mint = await hre.ethers.getContractFactory("GameItem");
+  const mint = await Mint.deploy();
+  await mint.deployed();
 
-  console.log("Greeter deployed to:", greeter.address);
+  console.log("Sample deployed to:", sample.address);
+  console.log("Mint deployed to:", mint.address);
   let config = `
-  export const nftaddress = "${greeter.address}"
+  export const SimpleStorage = "${sample.address}"
+  export const GameItem = "${mint.address}"
   `
   
   let data = JSON.stringify(config)

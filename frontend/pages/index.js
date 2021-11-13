@@ -2,26 +2,29 @@ import Head from "next/head";
 import "tailwindcss/tailwind.css";
 import { ethers } from "ethers";
 import { useEffect } from "react";
+import { SimpleStorage, GameItem } from "../../config";
+
 const isClient = () => typeof window !== "undefined";
 
 export default function Home() {
   let token;
-  let senderAddress;
   let NFT;
   let signer;
+
+  // コントラクトとの接続設定！！
+  // abi, contractaddress, provider, token,の取得
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     console.log(provider);
     NFT = require("../../artifacts/contracts/sample.sol/SimpleStorage.json");
-    senderAddress = "0x3E1edF1dB7D9303959a8c8e222BF76332B395Bf7";
     signer = provider.getSigner(0);
     console.log(signer);
-    token = new ethers.Contract(senderAddress, NFT.abi, signer);
+    token = new ethers.Contract(SimpleStorage, NFT.abi, signer);
   }, []);
 
+  // MetaMaskとの接続
   if (isClient()) {
-    const ethereumButton = document.getElementById("connectButton");
-    ethereumButton.addEventListener("click", () => {
+    document.getElementById("connectButton").addEventListener("click", () => {
       const accounts = ethereum.request({ method: "eth_requestAccounts" });
       // promisseの中を取得する
       accounts.then(function (result) {
@@ -29,11 +32,13 @@ export default function Home() {
       });
     });
   }
-  // -----------------
 
-  async function test() {
+  async function pinatafile() {
+    alert("ok");
+    // https://api.pinata.cloud/pinning/pinFileToIPFS
+  }
+  async function Retrieve() {
     if (typeof window !== "undefined") {
-      console.log(token);
       let res = await token.get();
       let messageStatus = document.getElementById("messageStatus");
       messageStatus.textContent = res;
@@ -41,9 +46,9 @@ export default function Home() {
   }
 
   async function storetest() {
-    console.log(token);
-    const set = await token.set(300);
-    console.log(set);
+    const inputMessage = document.getElementById("inputMessage");
+    const inputvalue = inputMessage.value;
+    await token.set(inputvalue);
   }
 
   return (
@@ -54,8 +59,7 @@ export default function Home() {
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        {/* ここから */}
-
+        <h1>-----メッセージの保存と取得-----</h1>
         <div className="text-red-400">Ethereum test dapp</div>
         <div>
           Accounts: <span id="address"></span>
@@ -72,7 +76,7 @@ export default function Home() {
         <button
           id="retrieveButton"
           className="bg-gray-600 border-2 rounded-md"
-          onClick={test}
+          onClick={Retrieve}
         >
           Retrieve
         </button>
@@ -87,9 +91,25 @@ export default function Home() {
           Store
         </button>
 
-        <input type="text" id="inputMessage" className="border-2 rounded-lg" />
+        <input
+          type="text"
+          id="inputMessage"
+          className="border-2 rounded-lg"
+          placeholder="uint"
+        />
 
-        {/* ここまで */}
+        <h1>-----デフォルトのmint-----</h1>
+
+        <form >
+          <input
+            type="file"
+            id="inputFile"
+            name="file"
+            accept="image/*"
+          />
+          <button onClick={pinatafile}>pinataにfileを保存</button>
+          
+        </form>
       </main>
 
       <footer className="flex items-center justify-center w-full h-24 border-t">
