@@ -6,7 +6,12 @@ import { SimpleStorage, GameItem } from "../../config";
 
 const isClient = () => typeof window !== "undefined";
 
-export default function Home() {
+// export const getServerSideProps = async () => {
+
+//   }
+
+export default function Home(props) {
+  console.log(props);
   let token;
   let NFT;
   let signer;
@@ -34,7 +39,18 @@ export default function Home() {
   }
 
   async function pinatafile() {
-    alert("ok");
+    console.log('ok');
+    const res = await fetch('http://localhost:3000/api/pinFileToIPFS');
+    console.log(res);
+    const data = await res.json()
+    console.log(data);
+    console.log('ok');
+  
+    // return {
+    //   props: {
+    //     data,
+    //   },
+    // }
     // https://api.pinata.cloud/pinning/pinFileToIPFS
   }
   async function Retrieve() {
@@ -107,7 +123,7 @@ export default function Home() {
             name="file"
             accept="image/*"
           />
-          <button onClick={pinatafile}>pinataにfileを保存</button>
+          <div onClick={pinatafile}>pinataにfileを保存</div>
           
         </form>
       </main>
