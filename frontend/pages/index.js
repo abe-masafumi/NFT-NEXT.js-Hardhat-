@@ -10,8 +10,7 @@ const isClient = () => typeof window !== "undefined";
 
 //   }
 
-export default function Home(props) {
-  console.log(props);
+export default function Home() {
   let token;
   let NFT;
   let signer;
@@ -20,10 +19,10 @@ export default function Home(props) {
   // abi, contractaddress, provider, token,の取得
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    console.log(provider);
+    // console.log(provider);
     NFT = require("../../artifacts/contracts/sample.sol/SimpleStorage.json");
     signer = provider.getSigner(0);
-    console.log(signer);
+    // console.log(signer);
     token = new ethers.Contract(SimpleStorage, NFT.abi, signer);
   }, []);
 
@@ -38,21 +37,28 @@ export default function Home(props) {
     });
   }
 
-  async function pinatafile() {
-    console.log('ok');
+  async function pinatafile(e) {
+    // console.log(location.pathname);
+    e.preventDefault();
+
+    console.log(e);
+    console.log(e.target.form[0].value);
+    console.log('requestを送信⏩⏩⏩');
     const res = await fetch('http://localhost:3000/api/pinFileToIPFS');
     console.log(res);
-    const data = await res.json()
+    const data = await res.json();
     console.log(data);
-    console.log('ok');
+    console.log('responseを受け取り完了○○○');
   
     // return {
     //   props: {
     //     data,
     //   },
-    // }
+    // }view.document.baseURI
+    // target.form[0].value
     // https://api.pinata.cloud/pinning/pinFileToIPFS
   }
+
   async function Retrieve() {
     if (typeof window !== "undefined") {
       let res = await token.get();
@@ -116,14 +122,17 @@ export default function Home(props) {
 
         <h1>-----デフォルトのmint-----</h1>
 
-        <form >
+        <form 
+        onSubmit={pinatafile} 
+        >
           <input
             type="file"
             id="inputFile"
             name="file"
             accept="image/*"
           />
-          <div onClick={pinatafile}>pinataにfileを保存</div>
+          {/* <button onClick={pinatafile}>pinataにfileを保存</button> */}
+          <button type="submit" >pinataにfileを保存</button>
           
         </form>
       </main>
