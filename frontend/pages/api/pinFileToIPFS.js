@@ -1,4 +1,5 @@
 export default async function pinFileToIPFS(req, res) {
+  // console.log(location.href);
 // テストok
 // pinatにfailを追加（写真）
   const axios = require("axios");
