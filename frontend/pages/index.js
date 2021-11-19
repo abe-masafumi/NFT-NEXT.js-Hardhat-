@@ -1,16 +1,13 @@
 import Head from "next/head";
 import "tailwindcss/tailwind.css";
 import { ethers } from "ethers";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SimpleStorage, GameItem } from "../../config";
 
 const isClient = () => typeof window !== "undefined";
-
-// export const getServerSideProps = async () => {
-
-//   }
-
 export default function Home() {
+  const [file, setFile] = useState();
+  console.log(file);
   let token;
   let NFT;
   let signer;
@@ -37,26 +34,34 @@ export default function Home() {
     });
   }
 
-  async function pinatafile(e) {
-    // console.log(location.pathname);
+  async function addfile(e) {
     e.preventDefault();
+    const file = document.querySelector("input[type=file]");
+    console.log("じっけん");
+    setFile(file.files[0]);
+  }
 
-    console.log(e);
-    console.log(e.target.form[0].value);
-    console.log('requestを送信⏩⏩⏩');
-    const res = await fetch('http://localhost:3000/api/pinFileToIPFS');
+  const handleChangeFile = (e) => {
+    // const file = document.querySelector("input[type=file]");
+    setFile(e.target.files[0]);
+  };
+
+
+
+  const handleClick =  handleSubmit ( async () => {
+    if(file) {
+      uploadImg(file)
+    }
+  })
+
+  async function pinFileToIPFS() {
+    console.log("requestを送信⏩⏩⏩");
+    //ここに受け取ったfileを追加してapiで取得してpinataにpostする予定
+    const res = await fetch(`http://localhost:3000/api/pinFileToIPFS?`);
     console.log(res);
     const data = await res.json();
     console.log(data);
-    console.log('responseを受け取り完了○○○');
-  
-    // return {
-    //   props: {
-    //     data,
-    //   },
-    // }view.document.baseURI
-    // target.form[0].value
-    // https://api.pinata.cloud/pinning/pinFileToIPFS
+    console.log("responseを受け取り完了○○○");
   }
 
   async function Retrieve() {
@@ -119,22 +124,20 @@ export default function Home() {
           className="border-2 rounded-lg"
           placeholder="uint"
         />
+        <h1>-----fileの追加-----</h1>
 
-        <h1>-----デフォルトのmint-----</h1>
-
-        <form 
-        onSubmit={pinatafile} 
-        >
+        <form onSubmit={addfile}>
           <input
             type="file"
             id="inputFile"
             name="file"
             accept="image/*"
+            onChange={handleChangeFile}
           />
           {/* <button onClick={pinatafile}>pinataにfileを保存</button> */}
-          <button type="submit" >pinataにfileを保存</button>
-          
+          <input type="submit" value="pinataにfileを保存" onClick={handleClick}/>
         </form>
+        <img src={file} />
       </main>
 
       <footer className="flex items-center justify-center w-full h-24 border-t">
