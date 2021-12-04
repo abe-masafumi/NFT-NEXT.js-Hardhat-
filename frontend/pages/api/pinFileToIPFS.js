@@ -1,4 +1,5 @@
 export default async function pinFileToIPFS(req, res) {
+  console.log(req);
   // console.log(location.href);
 // テストok
 // pinatにfailを追加（写真）
@@ -10,7 +11,7 @@ export default async function pinFileToIPFS(req, res) {
   data.append(
     "file",
     fs.createReadStream("/Users/Masa/Desktop/img/画像1.1.png")
-  ); //変var更
+  ); //変更
 
   var config = {
     method: "post",

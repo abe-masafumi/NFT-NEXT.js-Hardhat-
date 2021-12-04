@@ -1,13 +1,13 @@
 import Head from "next/head";
 import "tailwindcss/tailwind.css";
 import { ethers } from "ethers";
-import { useCallback, useEffect, useState } from "react";
-import { SimpleStorage, GameItem } from "../../config";
+import { useEffect, useState } from "react";
+import { SimpleStorage } from "../../config";
 
 const isClient = () => typeof window !== "undefined";
 export default function Home() {
-  const [file, setFile] = useState();
-  console.log(file);
+  // const [file, setFile] = useState();
+  // console.log(file);
   let token;
   let NFT;
   let signer;
@@ -34,31 +34,26 @@ export default function Home() {
     });
   }
 
-  async function addfile(e) {
-    e.preventDefault();
-    const file = document.querySelector("input[type=file]");
-    console.log("じっけん");
-    setFile(file.files[0]);
-  }
+  // async function addfile(e) {
+  //   e.preventDefault();
+  //   const file = document.querySelector("input[type=file]");
+  //   console.log("じっけん");
+  //   setFile(file.files[0]);
+  // }
 
-  const handleChangeFile = (e) => {
-    // const file = document.querySelector("input[type=file]");
-    setFile(e.target.files[0]);
-  };
-
-
-
-  const handleClick =  handleSubmit ( async () => {
-    if(file) {
-      uploadImg(file)
-    }
-  })
+  // const handleChangeFile = (e) => {
+  //   // const file = document.querySelector("input[type=file]");
+  //   setFile(e.target.files[0]);
+  // };
 
   async function pinFileToIPFS() {
     console.log("requestを送信⏩⏩⏩");
     //ここに受け取ったfileを追加してapiで取得してpinataにpostする予定
-    const res = await fetch(`http://localhost:3000/api/pinFileToIPFS?`);
-    console.log(res);
+    const formData = new FormData();
+    formData.append('test',file);
+
+    const res = await fetch(`http://localhost:3000/api/pinFileToIPFS`, formData);
+    // console.log(res);
     const data = await res.json();
     console.log(data);
     console.log("responseを受け取り完了○○○");
@@ -126,18 +121,20 @@ export default function Home() {
         />
         <h1>-----fileの追加-----</h1>
 
-        <form onSubmit={addfile}>
+        <form 
+          // onSubmit={addfile}
+        >
           <input
             type="file"
             id="inputFile"
             name="file"
             accept="image/*"
-            onChange={handleChangeFile}
+            // onChange={handleChangeFile}
           />
           {/* <button onClick={pinatafile}>pinataにfileを保存</button> */}
-          <input type="submit" value="pinataにfileを保存" onClick={handleClick}/>
+          <div onClick={pinFileToIPFS} >"pinataにfileを保存"</div>
         </form>
-        <img src={file} />
+        {/* <img src={file} /> */}
       </main>
 
       <footer className="flex items-center justify-center w-full h-24 border-t">
