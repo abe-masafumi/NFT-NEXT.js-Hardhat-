@@ -123,6 +123,7 @@ export default function Home() {
 
         <form 
           // onSubmit={addfile}
+          
         >
           <input
             type="file"
