@@ -123,17 +123,22 @@ export default function Home() {
 
         <form 
           // onSubmit={addfile}
-          
+          action="http://localhost/myfile_lab05/hardhatproject-matadata/"
+          method="POST"
+          encType="multipart/form-data"
         >
           <input
             type="file"
             id="inputFile"
             name="file"
             accept="image/*"
-            // onChange={handleChangeFile}
+
           />
           {/* <button onClick={pinatafile}>pinataにfileを保存</button> */}
-          <div onClick={pinFileToIPFS} >"pinataにfileを保存"</div>
+          <input type='submit'
+          // 送信時は写真データを保存するだけ 
+          // onClick={pinFileToIPFS}
+           />"pinataにfileを保存"
         </form>
         {/* <img src={file} /> */}
       </main>
